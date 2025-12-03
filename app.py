@@ -14,10 +14,9 @@ app = Flask(__name__)
 # OpenAI: https://platform.openai.com/api-keys
 # Tavily: https://tavily.com (1000 free searches/month)
 
-# For local development: Set these directly
-# For production (Render): Set via environment variables in dashboard
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', 'your-openai-key-here')
-TAVILY_API_KEY = os.environ.get('TAVILY_API_KEY', 'your-tavily-key-here')
+# SET YOUR API KEYS HERE:
+OPENAI_API_KEY = 'Set your API KEY Here'
+TAVILY_API_KEY = 'Set your API KEY Here'
 
 print("🤖 Loading AI models...")
 
@@ -483,7 +482,7 @@ if __name__ == '__main__':
         print("\n   Or edit lines 16-17 in app.py directly\n")
     
     print("="*70)
-    print("🌐 Starting server: http://localhost:5000")
+    print("🌐 Starting server: http://localhost:8080")
     print("="*70 + "\n")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=8080)
