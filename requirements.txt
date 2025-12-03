@@ -16,4 +16,5 @@ accelerate==0.25.0
 
 # Lightweight PyTorch for Render free tier (CPU-only, smaller)
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.1.2+cpu
+torch==2.5.1+cpu
+
