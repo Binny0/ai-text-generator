@@ -26,61 +26,52 @@ This project demonstrates the integration of sentiment analysis with AI-powered 
 ## ✨ Features
 
 ### Core Features
-- ✅ **Intelligent Sentiment Analysis**: Uses state-of-the-art RoBERTa model to detect positive, negative, or neutral sentiment
-- ✅ **AI-Powered Text Generation**: Leverages OpenAI GPT-4o-mini for high-quality, coherent essay generation
-- ✅ **Web-Informed Content**: Searches the web using Tavily API for current, accurate information
-- ✅ **Real-time Feedback**: Live sentiment detection as you type with confidence scores
-- ✅ **Interactive UI**: Clean, modern interface built with Flask and vanilla JavaScript
+-  **Intelligent Sentiment Analysis**: Uses state-of-the-art RoBERTa model to detect positive, negative, or neutral sentiment
+-  **AI-Powered Text Generation**: Leverages OpenAI GPT-4o-mini for high-quality, coherent essay generation
+-  **Web-Informed Content**: Searches the web using Tavily API for current, accurate information
+-  **Real-time Feedback**: Live sentiment detection as you type with confidence scores
+-  **Interactive UI**: Clean, modern interface built with Flask and vanilla JavaScript
 
 ### Optional Enhancements (Included!)
-- ✅ **Manual Sentiment Override**: Force a specific sentiment if needed
-- ✅ **Adjustable Length**: Set minimum and maximum word count (100-2000 words)
-- ✅ **Copy & Download**: Export generated content easily
-- ✅ **Source Display**: See all sources used for content generation
-- ✅ **Statistics**: Word count and character count tracking
+-  **Manual Sentiment Override**: Force a specific sentiment if needed
+-  **Adjustable Length**: Set minimum and maximum word count (100-2000 words)
+-  **Copy & Download**: Export generated content easily
+-  **Source Display**: See all sources used for content generation
+-  **Statistics**: Word count and character count tracking
 
 ---
 
 ## 🔄 How It Works
 
 
-┌─────────────────┐
-│   User Input    │
-│  "AI in 2025"   │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────────────┐
-│  Sentiment Detection        │
-│  (RoBERTa Model)            │
-│  Result: "Positive - 87%"   │
-└────────┬────────────────────┘
-         │
-         ▼
-┌─────────────────────────────┐
-│  Web Search                 │
-│  (Tavily API)               │
-│  Fetches: Recent articles,  │
-│  news, and current data     │
-└────────┬────────────────────┘
-         │
-         ▼
-┌─────────────────────────────┐
-│  Content Generation         │
-│  (OpenAI GPT-4o-mini)       │
-│  Creates: Sentiment-aligned │
-│  essay with real facts      │
-└────────┬────────────────────┘
-         │
-         ▼
-┌─────────────────────────────┐
-│  Display Results            │
-│  • Generated essay          │
-│  • Sentiment badge          │
-│  • Source links             │
-│  • Statistics               │
-└─────────────────────────────┘
+**1.User Input**                                                                        
+The user enters a topic, for example: "AI in 2025".  
 
+                           ↓  
+                           
+**2. Sentiment Detection (RoBERTa Model)**                                                                                                                     
+The text is analyzed for sentiment.                                                                                                                              
+Example output: Positive – 87%   
+
+                           ↓     
+                                    
+**3. Web Search (Tavily API)**                                                                                                            
+The system fetches the latest articles, news, facts, and real-time data related to the topic.          
+
+                           ↓                 
+                           
+**4. Content Generation (OpenAI GPT-4o-mini)**                                                                                                            
+The model generates a well-structured essay aligned with the sentiment and enriched with real, recent information.   
+
+                           ↓                                                                    
+                           
+**5. Display Output**                                                                                                                                                
+The UI presents:                                                                                                                                       
+The generated essay                                                                                                                                                
+A sentiment badge                                                                                                                              
+Source links (from Tavily)                                                                                                                     
+Basic statistics and metadata                                                                                                   
+                           
 
 ---
 
@@ -129,7 +120,7 @@ This project demonstrates the integration of sentiment analysis with AI-powered 
 
 1. **Clone the repository**
 
-   git clone https://github.com/yourusername/ai-text-generator.git
+   git clone https://github.com/Binny0/ai-text-generator
    cd ai-text-generator
    
 
@@ -182,7 +173,7 @@ This project requires two API keys. Both offer generous free tiers!
 Create a file named `local.env` in the project root:
 
 
-export OPENAI_API_KEY='your-openai-key-here'
+export OPENAI_API_KEY='your-openai-key-here'                                                                                          
 export TAVILY_API_KEY='your-tavily-key-here'
 
 
@@ -193,7 +184,7 @@ source local.env
 python app.py
 
 # Windows (PowerShell)
-$env:OPENAI_API_KEY='your-openai-key-here'
+$env:OPENAI_API_KEY='your-openai-key-here'                                                                                          
 $env:TAVILY_API_KEY='your-tavily-key-here'
 python app.py
 
@@ -223,8 +214,6 @@ python app.py
 
 1. **Enter a Topic**: Type any topic in the text area
    - Example: "Artificial Intelligence in healthcare"
-   - Example: "Climate change challenges"
-   - Example: "Future of renewable energy"
 
 2. **Watch Real-time Sentiment**: 
    - The system detects sentiment as you type
@@ -249,21 +238,20 @@ python app.py
 ## 📁 Project Structure
 
 
-ai-text-generator/
-│
-├── app.py                      # Main Flask application
-├── requirements.txt            # Python dependencies
-├── render.yaml                 # Render deployment config
-├── README.md                   # This file
-├── .gitignore                  # Git ignore rules
-├── local.env                   # Local API keys (not committed)
-│
-├── templates/
-│   └── index.html             # Frontend HTML
-│
-└── static/
-    └── style.css              # Styling and design
-
+ai-text-generator/                                                                                                                                       
+|── app.py----------------------># Main Flask application                                                                                          
+|── requirements.txt------------># Python dependencies                                                                                                            
+|── render.yaml-----------------># Render deployment config                                                                                                   
+|── README.md-------------------># This file                                                                                                                              
+|── .gitignore------------------># Git ignore rules                                                                                                                     
+|── local.env-------------------># Local API keys (not committed)                                                                                                   
+|                                                                                                                                                                  
+|── templates/                                                                                                                                                         
+|   └── index.html--------------># Frontend HTML                                                                                                                            
+|                                                                                                                                                                  
+|── static/                                                                                                                                                         
+    └── style.css---------------># Styling and design                                                                                                                     
+                                             
 
 ### Key Files Explained
 
@@ -489,11 +477,11 @@ Ensure your project has:
 #### Step 2: Create GitHub Repository
 
 
-git init
-git add .
-git commit -m "Initial commit: AI Text Generator"
-git remote add origin https://github.com/YOUR_USERNAME/ai-text-generator.git
-git push -u origin main
+git init                                                                                                                              
+git add .                                                                                                                                       
+git commit -m "Initial commit: AI Text Generator"                                                                                                            
+git remote add origin https://github.com/Binny0/ai-text-generator                                                                                 
+git push -u origin main                                                      
 
 
 #### Step 3: Deploy on Render
@@ -509,11 +497,11 @@ git push -u origin main
 
 3. **Configure Settings**
 
-   Name: ai-text-generator
-   Environment: Python 3
-   Build Command: pip install -r requirements.txt
-   Start Command: gunicorn app:app
-   Plan: Free
+   Name: ai-text-generator                                                      
+   Environment: Python 3                                                               
+   Build Command: pip install -r requirements.txt                                    
+   Start Command: gunicorn app:app                                                      
+   Plan: Free                                                      
 
 
 4. **Add Environment Variables**
@@ -522,20 +510,17 @@ git push -u origin main
    
    Add these:
 
-   OPENAI_API_KEY = your-openai-key-here
+   OPENAI_API_KEY = your-openai-key-here                                                                                                                              
    TAVILY_API_KEY = your-tavily-key-here
 
    
    ⚠️ **Important**: Replace with YOUR actual API keys!
 
-5. **Deploy**
+6. **Deploy**
    - Click "Create Web Service"
    - Wait 5-10 minutes for initial build
    - Your app will be live at: `https://your-app-name.onrender.com`
 
-#### Step 4: Update README with Live Link
-
-Once deployed, update the "Live Demo" link at the top of this README with your actual URL.
 
 
 ---
@@ -585,14 +570,13 @@ Potential improvements for future versions:
 **Developer**: Biddappa KS  
 **Email**: binnybiddappa678@gmail.com 
 **GitHub**: [@Binny0](https://github.com/Binny0)  
-**Project Link**: [https://github.com/yourusername/ai-text-generator](https://github.com/yourusername/ai-text-generator)
+**Project Link**: [https://github.com/Binny0/ai-text-generator](https://github.com/Binny0/ai-text-generator)
 
 
 ---
 
 ## 🎓 Built For
 
-**Remote ML Internship Assessment**  
 Demonstrating proficiency in:
 - Machine Learning model integration
 - API development and consumption
