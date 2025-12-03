@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Sentiment AI Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Text Generator</h1>
+            <p>Real-time sentiment detection with intelligent content generation</p>
+        </header>
+
+        <div class="main-wrapper">
+            <div class="input-panel">
+                <h2>Your Input</h2>
+                
+                <div class="form-group">
+                    <label>Enter Your Topic</label>
+                    <textarea 
+                        id="prompt" 
+                        placeholder="Enter any topic:
+• Industries with AI
+• Climate change solutions
+• Blockchain technology
+                        rows="6"
+                    ></textarea>
+                    <small>Sentiment is detected in real-time as you type</small>
+                </div>
+
+                <!-- Real-time sentiment indicator -->
+                <div id="realtimeSentiment" class="realtime-sentiment">
+                    <div class="sentiment-indicator">
+                        <span class="label">Live Detection:</span>
+                        <span id="liveBadge" class="badge neutral">NEUTRAL</span>
+                        <span id="liveConfidence" class="confidence">0%</span>
+                    </div>
+                    <div id="liveMessage" class="live-message">Start typing to see sentiment...</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Override Sentiment (Optional)</label>
+                    <select id="sentiment">
+                        <option value="auto">Use Detected Sentiment</option>
+                        <option value="positive">Force Positive</option>
+                        <option value="neutral">Force Neutral</option>
+                        <option value="negative">Force Negative</option>
+                    </select>
+                    <small>Leave on "Use Detected" to trust AI detection</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Content Length</label>
+                    <div class="length-controls">
+                        <div class="length-input">
+                            <label>Min Words</label>
+                            <input type="number" id="minLength" value="200" min="100" max="1000" step="50">
+                        </div>
+                        <div class="length-input">
+                            <label>Max Words</label>
+                            <input type="number" id="maxLength" value="400" min="200" max="2000" step="50">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="generateBtn" class="generate-btn">
+                    <span>Generate Content</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                </button>
+
+                <div id="status" class="status-message"></div>
+            </div>
+
+            <div class="output-panel">
+                <div class="output-header">
+                    <h2>Generated Content</h2>
+                    <div id="outputActions" class="output-actions" style="display: none;">
+                        <button id="copyBtn" class="action-btn">📋 Copy</button>
+                        <button id="downloadBtn" class="action-btn">💾 Download</button>
+                    </div>
+                </div>
+
+                <div id="sentimentInfo" class="sentiment-info" style="display: none;">
+                    <div class="sentiment-display">
+                        <span class="label">Final Sentiment:</span>
+                        <span id="sentimentBadge" class="badge"></span>
+                        <span class="confidence">(<span id="confidenceScore"></span> confidence)</span>
+                    </div>
+                    <div class="text-stats">
+                        <span>📝 <strong id="wordCount">0</strong> words</span>
+                        <span>📊 <strong id="charCount">0</strong> characters</span>
+                    </div>
+                </div>
+
+                <div id="loadingIndicator" class="loading-state" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Generating content...</p>
+                    <small>Creating natural, sentiment-aligned text</small>
+                </div>
+
+                <div id="outputContent" class="output-content">
+                    <div class="placeholder">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                        <h3>Ready to Generate</h3>
+                        <p>Enter any topic and watch real-time sentiment detection</p>
+                        <div class="example-box">
+                            <strong>Works with any topic:</strong>
+                            <ul>
+                                <li>🔍 "Deep insights on any current issue"</li>
+                                <li>🌍 "How technology shapes our future"</li>
+                                <li>⚡ "Key events influencing the world today"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const elements = {
+            prompt: document.getElementById('prompt'),
+            sentiment: document.getElementById('sentiment'),
+            minLength: document.getElementById('minLength'),
+            maxLength: document.getElementById('maxLength'),
+            generateBtn: document.getElementById('generateBtn'),
+            status: document.getElementById('status'),
+            realtimeSentiment: document.getElementById('realtimeSentiment'),
+            liveBadge: document.getElementById('liveBadge'),
+            liveConfidence: document.getElementById('liveConfidence'),
+            liveMessage: document.getElementById('liveMessage'),
+            sentimentInfo: document.getElementById('sentimentInfo'),
+            sentimentBadge: document.getElementById('sentimentBadge'),
+            confidenceScore: document.getElementById('confidenceScore'),
+            wordCount: document.getElementById('wordCount'),
+            charCount: document.getElementById('charCount'),
+            loadingIndicator: document.getElementById('loadingIndicator'),
+            outputContent: document.getElementById('outputContent'),
+            outputActions: document.getElementById('outputActions'),
+            copyBtn: document.getElementById('copyBtn'),
+            downloadBtn: document.getElementById('downloadBtn')
+        };
+
+        let currentContent = '';
+        let typingTimer;
+
+        // Real-time sentiment detection
+        elements.prompt.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            
+            const text = elements.prompt.value.trim();
+            
+            if (text.length < 3) {
+                elements.liveBadge.textContent = 'NEUTRAL';
+                elements.liveBadge.className = 'badge neutral';
+                elements.liveConfidence.textContent = '0%';
+                elements.liveMessage.textContent = 'Keep typing...';
+                return;
+            }
+            
+            typingTimer = setTimeout(() => {
+                detectSentimentRealtime(text);
+            }, 500); // Detect after 500ms pause
+        });
+
+        async function detectSentimentRealtime(text) {
+            try {
+                const response = await fetch('/analyze-realtime', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: text })
+                });
+
+                const data = await response.json();
+
+                if (data.sentiment) {
+                    elements.liveBadge.textContent = data.sentiment.toUpperCase();
+                    elements.liveBadge.className = 'badge ' + data.sentiment;
+                    elements.liveConfidence.textContent = data.confidence + '%';
+                    elements.liveMessage.textContent = data.message;
+                    
+                    // Pulse animation
+                    elements.realtimeSentiment.style.animation = 'none';
+                    setTimeout(() => {
+                        elements.realtimeSentiment.style.animation = 'pulse 0.3s ease';
+                    }, 10);
+                }
+            } catch (error) {
+                console.error('Real-time detection error:', error);
+            }
+        }
+
+        elements.generateBtn.addEventListener('click', generateContent);
+        elements.copyBtn.addEventListener('click', copyContent);
+        elements.downloadBtn.addEventListener('click', downloadContent);
+
+        async function generateContent() {
+            const text = elements.prompt.value.trim();
+            const sentiment = elements.sentiment.value;
+            const minLength = parseInt(elements.minLength.value);
+            const maxLength = parseInt(elements.maxLength.value);
+
+            if (!text) {
+                showStatus('Please enter some text', 'error');
+                return;
+            }
+
+            if (text.length < 3) {
+                showStatus('Text is too short. Please add more.', 'error');
+                return;
+            }
+
+            // Show loading
+            elements.generateBtn.disabled = true;
+            elements.loadingIndicator.style.display = 'flex';
+            elements.outputContent.innerHTML = '';
+            elements.sentimentInfo.style.display = 'none';
+            elements.outputActions.style.display = 'none';
+            showStatus('Generating...', 'info');
+
+            try {
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: text,
+                        sentiment: sentiment,
+                        min_length: minLength,
+                        max_length: maxLength
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResult(data);
+                    showStatus('Generated successfully!', 'success');
+                } else {
+                    showStatus(data.error || 'Generation failed', 'error');
+                }
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            } finally {
+                elements.generateBtn.disabled = false;
+                elements.loadingIndicator.style.display = 'none';
+            }
+        }
+
+        function displayResult(data) {
+            currentContent = data.content;
+
+            // Update sentiment info
+            elements.sentimentBadge.textContent = data.sentiment.toUpperCase();
+            elements.sentimentBadge.className = 'badge ' + data.sentiment;
+            elements.confidenceScore.textContent = data.confidence + '%';
+            elements.wordCount.textContent = data.word_count;
+            elements.charCount.textContent = data.char_count;
+            elements.sentimentInfo.style.display = 'flex';
+
+            // Display content
+            const paragraphs = data.content.split('\n\n');
+            const formattedHTML = paragraphs.map(p => 
+                `<p>${p.trim()}</p>`
+            ).join('');
+            
+            elements.outputContent.innerHTML = `<div class="generated-text">${formattedHTML}</div>`;
+
+            // Show actions
+            elements.outputActions.style.display = 'flex';
+        }
+
+        function copyContent() {
+            navigator.clipboard.writeText(currentContent).then(() => {
+                const originalText = elements.copyBtn.textContent;
+                elements.copyBtn.textContent = '✓ Copied!';
+                elements.copyBtn.style.background = '#10b981';
+                setTimeout(() => {
+                    elements.copyBtn.textContent = originalText;
+                    elements.copyBtn.style.background = '';
+                }, 2000);
+                showStatus('Copied to clipboard!', 'success');
+            });
+        }
+
+        function downloadContent() {
+            const blob = new Blob([currentContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sentiment-content-${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showStatus('Downloaded!', 'success');
+        }
+
+        function showStatus(message, type) {
+            elements.status.textContent = message;
+            elements.status.className = 'status-message ' + type;
+            elements.status.style.display = 'block';
+
+            setTimeout(() => {
+                elements.status.style.display = 'none';
+            }, 8080);
+        }
+
+        // Length validation
+        elements.minLength.addEventListener('change', () => {
+            const min = parseInt(elements.minLength.value);
+            const max = parseInt(elements.maxLength.value);
+            if (min >= max) {
+                elements.maxLength.value = min + 100;
+            }
+        });
+
+        elements.maxLength.addEventListener('change', () => {
+            const min = parseInt(elements.minLength.value);
+            const max = parseInt(elements.maxLength.value);
+            if (max <= min) {
+                elements.minLength.value = Math.max(100, max - 100);
+            }
+        });
+    </script>
+</body>
+</html>

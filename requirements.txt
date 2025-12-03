@@ -1,0 +1,16 @@
+Flask
+transformers
+torch
+requests
+beautifulsoup4
+newspaper3k
+sentencepiece==0.1.99
+protobuf==4.25.1
+numpy
+Werkzeug==3.0.1
+gunicorn==21.2.0
+Pillow
+wheel
+lxml
+bs4
+accelerate==0.25.0
