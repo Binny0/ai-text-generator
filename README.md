@@ -207,7 +207,7 @@ python app.py
 
 3. **Open your browser**
 
-   http://localhost:8080
+   http://localhost:5000
 
 
 ### Using the Application
