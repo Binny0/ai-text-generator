@@ -2,10 +2,10 @@
 
 > An intelligent text generation system that detects sentiment in real-time and creates well-researched essays aligned with the detected tone using advanced AI models.
 
-## 🌟 Live Demo
+## 🌟 Demo
 
-**Try it here:** [AI Text Generator - Live Demo](https://your-app-name.onrender.com)
-[Recorded_Demo](https://mega.nz/file/1IlBnb4A#to6DCF-8rZ5OEUNqmScvEpfO9blhMlkolpLFh4Pp0cc)
+**Try it here:** [ **Recorded_Demo** ](https://mega.nz/file/1IlBnb4A#to6DCF-8rZ5OEUNqmScvEpfO9blhMlkolpLFh4Pp0cc)
+
 ---
 
 
@@ -101,7 +101,7 @@ Basic statistics and metadata
 - **Vanilla JavaScript** - Dynamic interactions without heavy frameworks
 - **Real-time Updates** - Live sentiment detection with debouncing
 
-### Deployment
+### Deployment (optional)
 - **Render.com** - Free web service hosting
 - **Gunicorn** - Production WSGI server
 
@@ -241,10 +241,10 @@ python app.py
 ai-text-generator/                                                                                                                                       
 |── app.py----------------------># Main Flask application                                                                                          
 |── requirements.txt------------># Python dependencies                                                                                                            
-|── render.yaml-----------------># Render deployment config                                                                                                   
+|── render.yaml-----------------># Render deployment config (deployment method)                                                                                                 
 |── README.md-------------------># This file                                                                                                                              
-|── .gitignore------------------># Git ignore rules                                                                                                                     
-|── local.env-------------------># Local API keys (not committed)                                                                                                   
+|── .gitignore------------------># Git ignore rules  (deployment method)                                                                                                                   
+|── local.env-------------------># Local API keys (don't commit or push into Github,API key)                                                                                                   
 |                                                                                                                                                                  
 |── templates/                                                                                                                                                         
 |   └── index.html--------------># Frontend HTML                                                                                                                            
@@ -445,7 +445,7 @@ Running sentiment analysis on every keystroke caused:
 
 ---
 
-### Challenge 5: API Key Security
+### Challenge 5: API Key Security (when using rlocally you can hide it with .gitignore and local.env and with key and value in render)
 
 **Problem**:
 Need to use API keys without exposing them in public code repositories.
@@ -460,9 +460,9 @@ Need to use API keys without exposing them in public code repositories.
 
 ---
 
-## 🚀 Deployment
+## 🚀 Deployment (optional)
 
-### Deploying to Render.com (Recommended)
+### Deploying to Render.com 
 
 Render.com offers a generous free tier perfect for this project.
 
@@ -484,7 +484,7 @@ git remote add origin https://github.com/Binny0/ai-text-generator
 git push -u origin main                                                      
 
 
-#### Step 3: Deploy on Render
+#### Step 3: Deploy on Render { Optional,NOT completed}
 
 1. **Sign up on Render**
    - Go to [render.com](https://render.com)
