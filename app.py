@@ -483,7 +483,7 @@ if __name__ == '__main__':
         print("\n   Or edit lines 16-17 in app.py directly\n")
     
     print("="*70)
-    print("🌐 Starting server: http://localhost:8080")
+    print("🌐 Starting server: http://localhost:5000")
     print("="*70 + "\n")
     
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True, host='0.0.0.0', port=5000)
